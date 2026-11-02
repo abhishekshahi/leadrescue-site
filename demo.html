@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LeadRescue — Live Missed-Call Rescue Demo (2-min interactive)</title>
+<meta name="description" content="Try the LeadRescue missed-call text-back demo: missed call → SMS in <2 min → follow-up → booked job. Mock data, no SMS sent.">
+<link rel="canonical" href="https://leadrescue.example.com/demo.html">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#0b1220">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LeadRescue — Live Missed-Call Rescue Demo">
+<meta property="og:description" content="Interactive 2-min demo: missed call → instant text-back → booked job. Mock data only.">
+<meta property="og:url" content="https://leadrescue.example.com/demo.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LeadRescue — Live Demo">
+<meta name="twitter:description" content="Missed call → text-back → booked job in 2 min. Try the mock demo.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2338bdf8'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#0b1220;--card:#111c33;--line:#22345c;--txt:#e8eefc;--mut:#9fb0d0;--acc:#38bdf8;--ok:#34d399}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:Inter,system-ui,Arial,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:32px 18px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:14px 0}
+.mut{color:var(--mut)}.btn{background:var(--acc);color:#04222f;border:0;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.phone{background:#060b16;border:1px solid var(--line);border-radius:18px;padding:14px;min-height:340px}
+.bubble{max-width:85%;padding:10px 12px;border-radius:12px;margin:8px 0;font-size:14px;line-height:1.4}
+.me{background:#1d2c4e;margin-left:auto}.them{background:#0f3a2e;border:1px solid #1d5c4a}
+.log{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;background:#060b16;border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;min-height:120px}
+input,select,textarea{width:100%;background:#0a1326;color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:10px;margin:6px 0}
+label{font-size:13px;color:var(--mut)}
+.kpi{display:flex;gap:12px;flex-wrap:wrap}.kpi div{flex:1;min-width:140px;background:#0a1326;border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center}
+.kpi b{font-size:22px;display:block}
+</style></head>
+<body><div class="wrap">
+<h1>LeadRescue — Missed-Call Rescue ⚡</h1>
+<p class="mut">Interactive demo with mock data. No real SMS is sent. Shows exactly what a US home-service client gets: missed call → instant text-back → auto follow-up → booked job → CRM log.</p>
+
+<div class="kpi">
+<div><b id="kMissed">0</b><span class="mut">missed caught</span></div>
+<div><b id="kReply">0</b><span class="mut">replied</span></div>
+<div><b id="kBooked">0</b><span class="mut">booked</span></div>
+<div><b id="kValue">$0</b><span class="mut">pipeline value</span></div>
+</div>
+
+<div class="grid">
+<div class="card"><h3>1. Simulate</h3>
+<label>Business (mock)</label><select id="biz"><option>AccuTemp HVAC — Austin, TX (avg job $425)</option><option>BrightRoot Plumbing — Denver, CO (avg job $380)</option><option>Summit Roof Co — Charlotte, NC (avg job $850)</option></select>
+<label>Missed-call scenario</label><select id="sc"><option value="after">After-hours missed call — 8:42pm Saturday</option><option value="busy">Busy-line miss — 2 techs on jobs</option><option value="web">Web quote form — no reply in 1hr</option></select>
+<label>Customer name (mock)</label><input id="cname" value="Sarah M.">
+<button class="btn" onclick="runDemo()">▶ Run rescue flow</button>
+<button class="btn ghost" onclick="resetDemo()">Reset</button>
+<p class="mut" style="font-size:12px">Uses mock data only. Client version connects to their Twilio / GHL / HubSpot in their own account.</p>
+</div>
+<div class="card"><h3>2. Customer phone (mock)</h3><div class="phone" id="phone"><div class="mut">Press “Run rescue flow”…</div></div></div>
+</div>
+
+<div class="card"><h3>3. System log + CRM record</h3><div class="log" id="log">ready.</div>
+<p><button class="btn ghost" onclick="downloadCRM()">⬇ Download CRM CSV (mock)</button>
+<button class="btn ghost" onclick="downloadWorkflow()">⬇ Download n8n workflow JSON</button></p>
+</div>
+
+<div class="card"><h3>What the $495 setup includes</h3>
+<ul><li>Missed-call text-back in &lt;2 min (your number, your vendor account)</li><li>7-touch 14-day SMS+email follow-up (3 scripts included)</li><li>Pipeline board: New → Replied → Quoted → Booked → Won/Lost</li><li>Booking-link + Google Business auto-reply</li><li>Test log + handover doc. Care $149/mo: tweaks + monthly recovered-report.</li></ul>
+<p class="mut">No revenue promises. We report conversations recovered, replies, bookings — you verify dollars in your own books.</p></div>
+</div>
+<script>
+let rows=[["name","source","first_touch_min","replies","status","est_value"]],missed=0,reply=0,booked=0,value=0;
+function addMsg(cls,t){const p=document.getElementById('phone');const d=document.createElement('div');d.className='bubble '+cls;d.textContent=t;p.appendChild(d);p.scrollTop=p.scrollHeight;}
+function log(t){const l=document.getElementById('log');l.textContent+=(l.textContent==='ready.'?'':'\n')+new Date().toLocaleTimeString()+' '+t;}
+function kpi(){document.getElementById('kMissed').textContent=missed;document.getElementById('kReply').textContent=reply;document.getElementById('kBooked').textContent=booked;document.getElementById('kValue').textContent='$'+value.toLocaleString();}
+function runDemo(){
+ document.getElementById('phone').innerHTML='';
+ const biz=document.getElementById('biz').value.split(' (')[0], sc=document.getElementById('sc').value, name=document.getElementById('cname').value||'Sarah M.';
+ const jobV=biz.includes('Roof')?850:(biz.includes('Plumb')?380:425);
+ missed++;log('MISSED detected ('+sc+') → '+name+' via '+biz);
+ addMsg('them','📞 Missed call from '+name+' — '+sc);
+ const steps=[['me','Hi '+name+', sorry we missed you! — '+biz+'. Still need help? Reply YES and I’ll get you booked (usually within 15 min). — auto text'],['them','YES — AC blowing warm, can someone come tomorrow?'],['me','Got it. We have 9:40a or 1:15p tomorrow. Which works? Book here too: leadre scu.ro/b/'+Math.floor(Math.random()*9000+1000)],['them','9:40a works. 4210 Duval Rd?'],['me','Booked ✅ '+name+' — Tue 9:40a, tech assigned. Text RESCHEDULE anytime. — '+biz]];
+ let i=0;function next(){if(i>=steps.length){reply++;booked++;value+=jobV;rows.push([name,sc,'<2','3','Booked',jobV]);log('REPLIED → BOOKED $'+jobV+' pipeline. CRM row added.');kpi();return;}const[cls,t]=steps[i];i++;if(cls==='them'&&i===2){reply++;}addMsg(cls,t);log((cls==='me'?'SENT: ':'GOT: ')+t.slice(0,80));kpi();setTimeout(next,900);}next();
+}
+function resetDemo(){document.getElementById('phone').innerHTML='<div class="mut">Press “Run rescue flow”…</div>';document.getElementById('log').textContent='ready.';rows=[["name","source","first_touch_min","replies","status","est_value"]];missed=reply=booked=value=0;kpi();}
+function dl(name,txt){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/plain'}));a.download=name;a.click();}
+function downloadCRM(){dl('leadrescue_mock_crm.csv',rows.map(r=>r.join(',')).join('\n'));}
+function downloadWorkflow(){dl('leadrescue_n8n_workflow.json',JSON.stringify({name:"LeadRescue Missed-Call Rescue",nodes:[{name:"MissedCallTrigger",type:"webhook"},{name:"SMS<TextBack",type:"twilio.send",text:"Hi {{name}}, sorry we missed you! Reply YES"},{name:"WaitReply",type:"wait",minutes:15},{name:"FollowUp7Touch",type:"sequence",days:14,touches:7},{name:"CRMUpsert",type:"sheets.append",sheet:"LeadRescue_Pipeline"}],note:"Import into n8n. Client connects their own Twilio/Sheets creds. Mock-safe."},null,2));}
+kpi();
+</script></body></html>
